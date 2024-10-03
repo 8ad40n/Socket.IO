@@ -8,6 +8,12 @@ export default function App() {
     socket.on("connect", ()=>{
       console.log("Connected", socket.id);
     })
+    socket.on("welcome", (s)=>{
+      console.log(s);
+    })
+    socket.on("welcome1", (s)=>{
+      console.log(s);
+    })
   },[])
 
   return (
