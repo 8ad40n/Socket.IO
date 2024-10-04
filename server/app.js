@@ -25,15 +25,23 @@ io.on("connection", (socket) => {
   console.log("User connected");
   console.log("ID:", socket.id);
 
-  // message emitted from server
-  socket.emit("welcome", `welcome to the server emit, ${socket.id}`);
+  // // message emitted from server
+  // socket.emit("welcome", `welcome to the server emit, ${socket.id}`);
 
-  // message broadcasted from server
-  // here, the rest of the users can see the message
-  socket.broadcast.emit("welcome1", `${socket.id} joined the server`);
+  // // message broadcasted from server
+  // // here, the rest of the users can see the message
+  // socket.broadcast.emit("welcome1", `${socket.id} joined the server`);
+
+
+  socket.on("message", ({ room, message }) => {
+    // io.emit("receive-message", message);    
+    // socket.broadcast.emit("receive-message", message);
+    console.log({ room, message });
+    socket.to(room).emit("receive-message", message);
+  });
 
   socket.on('disconnect', () => {
-    console.log('User disconnected');
+    console.log('User disconnected: ', socket.id);
   });
 });
 
