@@ -4,15 +4,23 @@ import { io } from "socket.io-client";
 export default function App() {
   const [message, setMessage] = useState("");
   const [room, setRoom] = useState("");
+  const [roomName, setRoomName] = useState("");
   const [messages, setMessages] = useState([]);
   const [socketID, setSocketID] = useState("");
 
   const socket = io("http://localhost:3000");
 
+  const joinRoomHandler = (e) => {
+    e.preventDefault();
+    socket.emit("joinRoom", roomName);
+    setRoom(roomName);
+    setRoomName("");
+    
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = {room: room, message: message}
-    setMessage(message);
     socket.emit("message", data);
     setMessage("");
   };
@@ -44,6 +52,20 @@ export default function App() {
     <div>
       <h1 className="text-center font-extralight">Welcome to Socket.IO</h1>
       {socketID}
+      
+      <form onSubmit={joinRoomHandler}>
+        <h1>Join Room</h1>
+        <input
+          type="text"
+          name="roomName"
+          value={roomName}
+          onChange={(e) => setRoomName(e.target.value)}
+        />
+        <button type="submit">Join</button>
+      </form>
+
+      <br /><br />
+
       <form onSubmit={handleSubmit}>
         <input
           type="text"
