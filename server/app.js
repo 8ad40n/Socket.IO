@@ -50,7 +50,6 @@ io.on("connection", (socket) => {
   });
 });
 
-
 // Start the HTTP server
 server.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
